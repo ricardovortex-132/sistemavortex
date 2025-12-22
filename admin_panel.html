@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>VORTEX - Panel de Administración</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --primary: #ff6a00;
+      --primary-dark: #e05500;
+      --accent-red: #ff3b3b;
+      --bg-main: #f8f9fa;
+      --sidebar-bg: #ffffff;
+      --text-main: #222222;
+      --text-muted: #6c757d;
+      --border-soft: #e4e7ec;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      background: var(--bg-main);
+      color: var(--text-main);
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border-soft);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.04);
+    }
+
+    .sidebar-header {
+      padding: 24px 20px;
+      border-bottom: 1px solid var(--border-soft);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, rgba(255, 106, 0, 0.08), rgba(255, 59, 59, 0.08));
+    }
+
+    .sidebar-header img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+    }
+
+    .sidebar-header .brand {
+      flex: 1;
+    }
+
+    .sidebar-header .brand-title {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      background: linear-gradient(120deg, #ff6a00, #ff3b3b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .sidebar-header .brand-subtitle {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    .menu {
+      flex: 1;
+      padding: 16px 12px;
+      overflow-y: auto;
+    }
+
+    .menu-section {
+      margin-bottom: 20px;
+    }
+
+    .menu-section-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      padding: 0 10px;
+    }
+
+    .menu-item {
+      padding: 11px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-main);
+      transition: all 0.2s ease;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .menu-item:hover {
+      background: rgba(255, 106, 0, 0.1);
+      color: var(--primary-dark);
+    }
+
+    .menu-item.active {
+      background: linear-gradient(120deg, #ff6a00, #ff3b3b);
+      color: #ffffff;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(255, 106, 0, 0.35);
+    }
+
+    .menu-item-icon {
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Header */
+    .header {
+      height: 70px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-soft);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-badge {
+      background: linear-gradient(120deg, rgba(255, 106, 0, 0.15), rgba(255, 59, 59, 0.15));
+      color: var(--primary-dark);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border: 1px solid rgba(255, 106, 0, 0.3);
+    }
+
+    .department-badge {
+      background: #ffffff;
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid var(--border-soft);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .user-info {
+      text-align: right;
+    }
+
+    .user-info .name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+      display: block;
+    }
+
+    .user-info .role {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .user-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff6a00, #ff3b3b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 16px;
+      box-shadow: 0 4px 12px rgba(255, 106, 0, 0.3);
+    }
+
+    /* Body */
+    .body {
+      flex: 1;
+      padding: 30px;
+      overflow-y: auto;
+      background: var(--bg-main);
+    }
+
+    .content-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--border-soft);
+    }
+
+    .content-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 10px;
+      background: linear-gradient(120deg, #ff6a00, #ff3b3b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .content-description {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border-soft);
+      margin: 20px 0;
+    }
+
+    .info-box {
+      background: linear-gradient(135deg, rgba(255, 106, 0, 0.08), rgba(255, 59, 59, 0.08));
+      border-left: 4px solid var(--primary);
+      padding: 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--text-main);
+      line-height: 1.5;
+    }
+
+    .info-box strong {
+      color: var(--primary-dark);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <img src="icon-vortex.png" alt="VORTEX">
+      <div class="brand">
+        <div class="brand-title">VORTEX</div>
+        <div class="brand-subtitle">Panel de Control</div>
+      </div>
+    </div>
+
+    <div class="menu">
+      <div class="menu-section">
+        <div class="menu-section-title">Administración</div>
+        <div class="menu-item active">
+          <span class="menu-item-icon">👤</span>
+          <span>CUENTAS</span>
+        </div>
+        <div class="menu-item">
+          <span class="menu-item-icon">🚒</span>
+          <span>CREAR CARROS</span>
+        </div>
+        <div class="menu-item">
+          <span class="menu-item-icon">🏢</span>
+          <span>CREAR CUARTELES</span>
+        </div>
+        <div class="menu-item">
+          <span class="menu-item-icon">🔑</span>
+          <span>CREAR CLAVES</span>
+        </div>
+        <div class="menu-item">
+          <span class="menu-item-icon">⚙️</span>
+          <span>CREAR ESPECIALIDADES</span>
+        </div>
+      </div>
+
+      <div class="menu-section">
+        <div class="menu-section-title">Operaciones</div>
+        <div class="menu-item">
+          <span class="menu-item-icon">🚨</span>
+          <span>CREAR EMERGENCIA</span>
+        </div>
+        <div class="menu-item">
+          <span class="menu-item-icon">📡</span>
+          <span>EMERGENCIAS ACTIVAS</span>
+        </div>
+        <div class="menu-item">
+          <span class="menu-item-icon">📋</span>
+          <span>BITÁCORAS</span>
+        </div>
+      </div>
+
+      <div class="menu-section">
+        <div class="menu-section-title">Reportes</div>
+        <div class="menu-item">
+          <span class="menu-item-icon">📊</span>
+          <span>INFORMES</span>
+        </div>
+        <div class="menu-item">
+          <span class="menu-item-icon">🧯</span>
+          <span>MATERIAL MAYOR</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-left">
+        <span class="status-badge">● SISTEMA ACTIVO</span>
+        <span class="department-badge" id="dept-name">Cargando...</span>
+      </div>
+      <div class="header-right">
+        <div class="user-info">
+          <span class="name" id="user-name">Cargando...</span>
+          <span class="role" id="user-role">Admin</span>
+        </div>
+        <div class="user-avatar" id="user-avatar">V</div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="body">
+      <div class="content-card">
+        <h1 class="content-title">Bienvenido al Sistema VORTEX</h1>
+        <p class="content-description">
+          Has iniciado sesión correctamente en el panel de administración.
+          Desde aquí podrás gestionar todos los aspectos operativos y administrativos
+          del sistema de respuesta a emergencias.
+        </p>
+
+        <div class="divider"></div>
+
+        <div class="info-box">
+          <strong>📌 Próximos pasos:</strong><br>
+          Selecciona un módulo del menú lateral para comenzar a configurar tu sistema.
+          Empezaremos construyendo el módulo de <strong>CUENTAS</strong> para que puedas
+          crear usuarios administradores y operadores con sus respectivos permisos.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Cargar datos del usuario y departamento
+    const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+    const currentDept = localStorage.getItem("currentDepartment");
+
+    if (!loggedUser) {
+      window.location.href = "index.html";
+    } else {
+      document.getElementById("user-name").textContent = 
+        loggedUser.nombre + " " + loggedUser.apellido;
+      document.getElementById("user-role").textContent = 
+        loggedUser.role.toUpperCase();
+      document.getElementById("user-avatar").textContent = 
+        loggedUser.nombre.charAt(0).toUpperCase();
+    }
+
+    if (currentDept) {
+      document.getElementById("dept-name").textContent = currentDept;
+    }
+
+    // Navegación del menú (por ahora solo visual)
+    const menuItems = document.querySelectorAll(".menu-item");
+    menuItems.forEach(item => {
+      item.addEventListener("click", function() {
+        menuItems.forEach(i => i.classList.remove("active"));
+        this.classList.add("active");
+        // Aquí más adelante cargaremos el contenido de cada módulo
+      });
+    });
+  </script>
+</body>
+</html>
