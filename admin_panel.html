@@ -2,10 +2,9 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <title>VORTEX - Panel de Administración</title>
+  <title>VORTEX - Panel de Administración (Cuentas)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    /* (Aquí va el mismo CSS que tienes actualmente, para mantener diseño) */
     :root{
       --primary:#ff6a00; --primary-dark:#e05500;
       --bg:#f8f9fa; --card:#ffffff; --muted:#6c757d; --soft:#e4e7ec; --text:#222;
@@ -19,7 +18,7 @@
     .brand-sub{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
     .menu{padding:14px;overflow:auto;flex:1}
     .menu-section-title{font-size:11px;color:var(--muted);text-transform:uppercase;margin:10px 6px 8px;font-weight:700}
-    .menu-item{padding:10px 12px;border-radius:10px;display:flex;gap:10px;align-items:center;margin-bottom:6px;cursor:pointer;font-weight:600;color:var(--text)}
+    .menu-item{padding:10px 12px;border-radius:10px;display:flex;gap:10px;align-items:center;margin-bottom:6px;cursor:pointer;font-weight:600;color:var(--text);text-decoration:none;}
     .menu-item:hover{background:rgba(255,106,0,0.06)}
     .menu-item.active{background:linear-gradient(120deg,var(--primary),#ff3b3b);color:#fff;box-shadow:0 6px 18px rgba(255,106,0,0.18)}
     .main{flex:1;display:flex;flex-direction:column;overflow:hidden}
@@ -51,7 +50,17 @@
       <div class="menu-section-title">Administración</div>
       <a href="admin_panel.html" class="menu-item" id="link-cuentas">👤 CUENTAS</a>
       <a href="crear_carros.html" class="menu-item" id="link-carros">🚒 CREAR CARROS</a>
-      <a href="crear_emergencias.html" class="menu-item" id="link-emergencias">🚨 CREAR EMERGENCIAS</a>
+      <a href="crear_cuarteles.html" class="menu-item" id="link-cuarteles">🏢 CREAR CUARTELES</a>
+      <a href="crear_claves.html" class="menu-item" id="link-claves">🔑 CREAR CLAVES</a>
+      <a href="crear_especialidades.html" class="menu-item" id="link-especialidades">⚙️ CREAR ESPECIALIDADES</a>
+      <div style="height:12px;"></div>
+      <div class="menu-section-title">Operaciones</div>
+      <a href="crear_emergencias.html" class="menu-item" id="link-emergencias">🚨 CREAR EMERGENCIA</a>
+      <a href="emergencias_activas.html" class="menu-item" id="link-emergencias-activas">📡 EMERGENCIAS ACTIVAS</a>
+      <div class="menu-section-title">Reportes</div>
+      <a href="informes.html" class="menu-item" id="link-informes">📊 INFORMES</a>
+      <a href="material_mayor.html" class="menu-item" id="link-material">🧰 MATERIAL MAYOR</a>
+      <a href="bitacoras.html" class="menu-item" id="link-bitacoras">📓 BITÁCORAS</a>
     </div>
   </div>
 
@@ -69,16 +78,16 @@
         <div class="avatar" id="user-avatar">V</div>
       </div>
     </div>
-    <div class="body">
+    <div class="body" id="main-body">
       <div class="card">
-        <h2 class="title">Bienvenido al Panel VORTEX</h2>
-        <p class="desc">Selecciona un módulo del menú lateral para comenzar.</p>
+        <h2 class="title">Módulo CUENTAS</h2>
+        <p class="desc">Aquí irá la gestión de cuentas (en construcción).</p>
       </div>
     </div>
   </div>
 
   <script>
-    // Mantener sesión y mostrar datos usuario
+    // Sesión y mostrar usuario/depto
     const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
     const currentDept = localStorage.getItem('currentDepartment');
     if (!loggedUser) {
@@ -89,6 +98,16 @@
       document.getElementById('user-avatar').textContent = (loggedUser.nombre || loggedUser.user).charAt(0).toUpperCase();
       document.getElementById('dept-name').textContent = currentDept || '';
     }
+
+    // Marcar menú activo
+    const currentPage = window.location.pathname.split('/').pop();
+    document.querySelectorAll('.menu-item').forEach(item => {
+      if (item.getAttribute('href') === currentPage) {
+        item.classList.add('active');
+      } else {
+        item.classList.remove('active');
+      }
+    });
   </script>
 </body>
 </html>
