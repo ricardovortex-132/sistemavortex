@@ -5,6 +5,7 @@
   <title>VORTEX - Panel de Administración</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
+    /* (Aquí va el mismo CSS que tienes actualmente, para mantener diseño) */
     :root{
       --primary:#ff6a00; --primary-dark:#e05500;
       --bg:#f8f9fa; --card:#ffffff; --muted:#6c757d; --soft:#e4e7ec; --text:#222;
@@ -35,79 +36,22 @@
     .card{background:var(--card);border-radius:14px;padding:20px;border:1px solid var(--soft);box-shadow:0 6px 18px rgba(0,0,0,0.03)}
     .title{font-size:22px;font-weight:900;background:linear-gradient(120deg,var(--primary),#ff3b3b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
     .desc{color:var(--muted);margin-bottom:14px}
-    .row{display:flex;gap:12px}
-    form .form-group{margin-bottom:12px}
-    label{display:block;font-size:12px;font-weight:700;color:var(--primary-dark);margin-bottom:6px;text-transform:uppercase}
-    input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid var(--soft);font-size:14px;background:#fff;color:var(--text)}
-    .btn{padding:11px 14px;border-radius:999px;border:none;background:linear-gradient(120deg,var(--primary),#ff3b3b);color:#fff;font-weight:800;cursor:pointer}
-    .btn.secondary{background:#fff;border:1px solid var(--soft);color:var(--text)}
-    table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px}
-    th,td{padding:10px;border-bottom:1px solid #f0f0f0;text-align:left}
-    .actions button{margin-right:6px;padding:6px 8px;border-radius:8px;border:none;cursor:pointer}
-    .actions .edit{background:#fff;border:1px solid #f0a070;color:var(--primary-dark)}
-    .actions .del{background:#ffdede;border:1px solid #ffb3b3;color:#b20000}
-    .small{font-size:13px;color:var(--muted)}
-    .flex-between{display:flex;justify-content:space-between;align-items:center;gap:10px}
-    @media(max-width:900px){.sidebar{width:240px}}
   </style>
 </head>
 <body>
   <div class="sidebar">
     <div class="sidebar-header">
-      <img src="icon-vortex.png" alt="Vortex">
+      <img src="icon-vortex.png" alt="Vortex" />
       <div>
         <div class="brand-title">VORTEX</div>
         <div class="brand-sub">Panel de Control</div>
       </div>
     </div>
-
-    <div class="menu" id="sidebar-menu">
+    <div class="menu">
       <div class="menu-section-title">Administración</div>
-
-      <div class="menu-item" data-module="cuentas" id="m-cuentas">
-        <span>👤</span><span>CUENTAS</span>
-      </div>
-
-      <div class="menu-item" data-module="carros" id="m-carros">
-        <span>🚒</span><span>CREAR CARROS</span>
-      </div>
-
-      <div class="menu-item" data-module="cuarteles" id="m-cuarteles">
-        <span>🏢</span><span>CREAR CUARTELES</span>
-      </div>
-
-      <div class="menu-item" data-module="claves" id="m-claves">
-        <span>🔑</span><span>CREAR CLAVES</span>
-      </div>
-
-      <div class="menu-item" data-module="especialidades" id="m-especialidades">
-        <span>⚙️</span><span>CREAR ESPECIALIDADES</span>
-      </div>
-
-      <div style="height:12px;"></div>
-      <div class="menu-section-title">Operaciones</div>
-
-      <div class="menu-item" data-module="crear_emergencia" id="m-crear-emergencia">
-        <span>🚨</span><span>CREAR EMERGENCIA</span>
-      </div>
-
-      <div class="menu-item" data-module="emergencias_activas" id="m-emergencias-activas">
-        <span>📡</span><span>EMERGENCIAS ACTIVAS</span>
-      </div>
-
-      <div class="menu-section-title">Reportes</div>
-
-      <div class="menu-item" data-module="informes" id="m-informes">
-        <span>📊</span><span>INFORMES</span>
-      </div>
-
-      <div class="menu-item" data-module="material_mayor" id="m-material">
-        <span>🧰</span><span>MATERIAL MAYOR</span>
-      </div>
-
-      <div class="menu-item" data-module="bitacoras" id="m-bitacoras">
-        <span>📓</span><span>BITÁCORAS</span>
-      </div>
+      <a href="admin_panel.html" class="menu-item" id="link-cuentas">👤 CUENTAS</a>
+      <a href="crear_carros.html" class="menu-item" id="link-carros">🚒 CREAR CARROS</a>
+      <a href="crear_emergencias.html" class="menu-item" id="link-emergencias">🚨 CREAR EMERGENCIAS</a>
     </div>
   </div>
 
@@ -117,7 +61,6 @@
         <div class="badge">● SISTEMA ACTIVO</div>
         <div class="dept" id="dept-name">Cargando...</div>
       </div>
-
       <div class="user">
         <div class="user-info">
           <span class="name" id="user-name">Cargando...</span>
@@ -126,298 +69,26 @@
         <div class="avatar" id="user-avatar">V</div>
       </div>
     </div>
-
-    <div class="body" id="main-body">
-      <div class="card" id="main-card">
+    <div class="body">
+      <div class="card">
         <h2 class="title">Bienvenido al Panel VORTEX</h2>
-        <p class="desc">Selecciona un módulo del menú lateral para comenzar. Empezaremos con <strong>CREAR CARROS</strong>.</p>
-        <div class="divider small">Selecciona "CREAR CARROS" en la izquierda para abrir el módulo.</div>
+        <p class="desc">Selecciona un módulo del menú lateral para comenzar.</p>
       </div>
     </div>
   </div>
 
-<script>
-  // --- Utils y datos iniciales ---
-  function ensureDefaults() {
-    if (!localStorage.getItem('accounts')) {
-      localStorage.setItem('accounts', JSON.stringify([{
-        user: 'admin', password: '1234', role: 'admin', nombre: 'Administrador', apellido: 'VORTEX'
-      }]));
-    }
-    // sample specialties and stations if not present
-    if (!localStorage.getItem('specialties')) {
-      localStorage.setItem('specialties', JSON.stringify(['Rescate', 'Material Mayor', 'Atención médica']));
-    }
-    if (!localStorage.getItem('stations')) {
-      localStorage.setItem('stations', JSON.stringify(['Cuartel Central', 'San Bernardo', 'Paine', 'Buin']));
-    }
-    if (!localStorage.getItem('cars')) {
-      localStorage.setItem('cars', JSON.stringify([]));
-    }
-  }
-
-  ensureDefaults();
-
-  // --- Login guard + mostrar usuario y depto ---
-  const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
-  const currentDept = localStorage.getItem('currentDepartment') || 'Sin departamento';
-  if (!loggedUser) {
-    // if not logged, redirect to login
-    window.location.href = 'index.html';
-  } else {
-    document.getElementById('user-name').textContent = (loggedUser.nombre || loggedUser.user) + (loggedUser.apellido ? (' ' + loggedUser.apellido) : '');
-    document.getElementById('user-role').textContent = (loggedUser.role || '—').toUpperCase();
-    document.getElementById('user-avatar').textContent = (loggedUser.nombre || loggedUser.user).charAt(0).toUpperCase();
-    document.getElementById('dept-name').textContent = currentDept;
-  }
-
-  // --- Menu navigation ---
-  const menuItems = document.querySelectorAll('.menu-item');
-  function clearActive(){ menuItems.forEach(m => m.classList.remove('active')); }
-  menuItems.forEach(it => {
-    it.addEventListener('click', () => {
-      clearActive();
-      it.classList.add('active');
-      loadModule(it.dataset.module);
-    });
-  });
-
-  // default open "cuentas" if available else carros
-  document.getElementById('m-carros').classList.add('active');
-  loadModule('carros');
-
-  // --- Module loader ---
-  function loadModule(name){
-    const body = document.getElementById('main-body');
-    if(name === 'carros'){
-      body.innerHTML = renderCarrosModule();
-      attachCarrosEvents();
-    } else if(name === 'cuentas'){
-      body.innerHTML = renderCuentasPlaceholder();
-      // future: attach accounts logic
+  <script>
+    // Mantener sesión y mostrar datos usuario
+    const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+    const currentDept = localStorage.getItem('currentDepartment');
+    if (!loggedUser) {
+      window.location.href = 'index.html';
     } else {
-      body.innerHTML = `<div class="card"><h2 class="title">Módulo: ${name.replace(/_/g,' ').toUpperCase()}</h2><p class="desc">Módulo en construcción. Más adelante agregaremos funcionalidad completa.</p></div>`;
+      document.getElementById('user-name').textContent = loggedUser.nombre || loggedUser.user;
+      document.getElementById('user-role').textContent = (loggedUser.role || '').toUpperCase();
+      document.getElementById('user-avatar').textContent = (loggedUser.nombre || loggedUser.user).charAt(0).toUpperCase();
+      document.getElementById('dept-name').textContent = currentDept || '';
     }
-  }
-
-  // --- RENDER: Crear Carros module HTML ---
-  function renderCarrosModule(){
-    const specialties = JSON.parse(localStorage.getItem('specialties')||'[]');
-    const stations = JSON.parse(localStorage.getItem('stations')||'[]');
-    return `
-      <div class="card">
-        <div class="flex-between">
-          <div>
-            <h2 class="title">CREAR CARROS</h2>
-            <p class="desc">Agregar y administrar vehículos operativos. Los datos se guardan en tu navegador.</p>
-          </div>
-          <div>
-            <button class="btn" id="btn-new-car">Nuevo Carro</button>
-          </div>
-        </div>
-
-        <div id="car-form-container" style="margin-top:16px;display:none;">
-          <form id="car-form">
-            <div style="display:flex;gap:12px;flex-wrap:wrap;">
-              <div style="flex:1;min-width:180px" class="form-group">
-                <label>Código</label>
-                <input id="car-code" required placeholder="Ej: C-01">
-              </div>
-              <div style="flex:2;min-width:220px" class="form-group">
-                <label>Nombre</label>
-                <input id="car-name" required placeholder="Ej: Bomba San Bernardo">
-              </div>
-              <div style="flex:1;min-width:160px" class="form-group">
-                <label>Especialidad</label>
-                <select id="car-specialty">${specialties.map(s=>`<option value="${s}">${s}</option>`).join('')}</select>
-              </div>
-              <div style="flex:1;min-width:160px" class="form-group">
-                <label>Cuartel</label>
-                <select id="car-station">${stations.map(s=>`<option value="${s}">${s}</option>`).join('')}</select>
-              </div>
-              <div style="flex:1;min-width:140px" class="form-group">
-                <label>Estado</label>
-                <select id="car-status"><option value="activo">Activo</option><option value="inactivo">Inactivo</option></select>
-              </div>
-            </div>
-
-            <div style="margin-top:10px;display:flex;gap:8px;">
-              <button class="btn" type="submit" id="save-car">Guardar Carro</button>
-              <button type="button" class="btn secondary" id="cancel-car">Cancelar</button>
-            </div>
-            <div id="car-form-msg" class="small" style="margin-top:8px"></div>
-          </form>
-        </div>
-
-        <div id="cars-list" style="margin-top:18px;">
-          <!-- aquí va la tabla -->
-        </div>
-      </div>
-    `;
-  }
-
-  // --- Attach events for Carros module ---
-  function attachCarrosEvents(){
-    const btnNew = document.getElementById('btn-new-car');
-    const formContainer = document.getElementById('car-form-container');
-    const form = document.getElementById('car-form');
-    const msg = document.getElementById('car-form-msg');
-    const cancel = document.getElementById('cancel-car');
-
-    let editMode = false;
-    let editingCode = null;
-
-    btnNew.addEventListener('click', () => {
-      formContainer.style.display = 'block';
-      form.reset();
-      msg.textContent = '';
-      editMode = false;
-      editingCode = null;
-    });
-
-    cancel.addEventListener('click', () => { formContainer.style.display = 'none'; form.reset(); msg.textContent=''; });
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const code = document.getElementById('car-code').value.trim();
-      const name = document.getElementById('car-name').value.trim();
-      const specialty = document.getElementById('car-specialty').value;
-      const station = document.getElementById('car-station').value;
-      const status = document.getElementById('car-status').value;
-
-      if(!code || !name){ msg.textContent = 'Código y nombre son obligatorios.'; return; }
-
-      let cars = JSON.parse(localStorage.getItem('cars')||'[]');
-
-      if(editMode){
-        // update existing
-        const idx = cars.findIndex(c => c.code === editingCode);
-        if(idx === -1){ msg.textContent = 'Error: registro no encontrado.'; return; }
-        // if code changed, ensure uniqueness
-        if(code !== editingCode && cars.some(c => c.code === code)){ msg.textContent = 'El código ya existe.'; return; }
-        cars[idx] = { code, name, specialty, station, status, department: currentDept, updatedAt: new Date().toISOString() };
-        localStorage.setItem('cars', JSON.stringify(cars));
-        msg.textContent = 'Carro actualizado.';
-        editMode=false; editingCode=null;
-      } else {
-        // create new, check duplicates
-        if(cars.some(c => c.code === code)){ msg.textContent = 'Ya existe un carro con ese código.'; return; }
-        cars.push({ code, name, specialty, station, status, department: currentDept, createdAt: new Date().toISOString() });
-        localStorage.setItem('cars', JSON.stringify(cars));
-        msg.textContent = 'Carro creado correctamente.';
-      }
-      renderCarsTable();
-      form.reset();
-      // keep form open for quick adds, or hide:
-      // formContainer.style.display = 'none';
-    });
-
-    // initial render
-    renderCarsTable();
-
-    // delegate edit/delete
-    function attachRowButtons(){
-      document.querySelectorAll('.btn-edit-car').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const code = btn.dataset.code;
-          const cars = JSON.parse(localStorage.getItem('cars')||'[]');
-          const c = cars.find(x => x.code === code);
-          if(!c) return alert('Registro no encontrado.');
-          // fill form
-          formContainer.style.display = 'block';
-          document.getElementById('car-code').value = c.code;
-          document.getElementById('car-name').value = c.name;
-          document.getElementById('car-specialty').value = c.specialty;
-          document.getElementById('car-station').value = c.station;
-          document.getElementById('car-status').value = c.status;
-          editMode = true;
-          editingCode = c.code;
-          msg.textContent = 'Editando carro ' + c.code;
-        });
-      });
-
-      document.querySelectorAll('.btn-del-car').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const code = btn.dataset.code;
-          if(!confirm('Eliminar el carro ' + code + ' ?')) return;
-          let cars = JSON.parse(localStorage.getItem('cars')||'[]');
-          cars = cars.filter(c => c.code !== code);
-          localStorage.setItem('cars', JSON.stringify(cars));
-          renderCarsTable();
-        });
-      });
-    }
-
-    function renderCarsTable(){
-      const container = document.getElementById('cars-list');
-      let cars = JSON.parse(localStorage.getItem('cars')||'[]');
-      // filter by currentDept if desired:
-      // cars = cars.filter(c => c.department === currentDept);
-      if(cars.length === 0){
-        container.innerHTML = '<div class="small">No hay carros creados aún.</div>';
-        return;
-      }
-      let html = `<div style="overflow:auto"><table><thead><tr>
-        <th>Código</th><th>Nombre</th><th>Especialidad</th><th>Cuartel</th><th>Estado</th><th>Acciones</th>
-      </tr></thead><tbody>`;
-      cars.forEach(c => {
-        html += `<tr>
-          <td>${escapeHtml(c.code)}</td>
-          <td>${escapeHtml(c.name)}</td>
-          <td>${escapeHtml(c.specialty)}</td>
-          <td>${escapeHtml(c.station)}</td>
-          <td>${escapeHtml(c.status)}</td>
-          <td class="actions">
-            <button class="edit btn-edit-car" data-code="${escapeAttr(c.code)}">✏️ Editar</button>
-            <button class="del btn-del-car" data-code="${escapeAttr(c.code)}">🗑️ Eliminar</button>
-          </td>
-        </tr>`;
-      });
-      html += `</tbody></table></div>`;
-      container.innerHTML = html;
-      attachRowButtons();
-    }
-
-    // small helpers
-    function escapeHtml(s){ return (s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-    function escapeAttr(s){ return (s||'').toString().replace(/"/g,'&quot;'); }
-  }
-
-  // --- Placeholder for CUENTAS (so the menu item does something) ---
-  function renderCuentasPlaceholder(){
-    return `
-      <div class="card">
-        <h2 class="title">CUENTAS</h2>
-        <p class="desc">Módulo de cuentas disponible. Actualmente la gestión completa está en construcción — próximamente lo vincularemos con el login.</p>
-        <div class="divider small">Cuentas actuales:</div>
-        <div style="margin-top:12px">
-          <pre class="small" id="accounts-dump"></pre>
-        </div>
-      </div>
-    `;
-  }
-
-  // show accounts list when cuentas loaded
-  document.addEventListener('click', function(ev){
-    if(ev.target && ev.target.closest && ev.target.closest('#m-cuentas')){
-      setTimeout(()=> {
-        const el = document.getElementById('accounts-dump');
-        if(el){
-          el.textContent = JSON.stringify(JSON.parse(localStorage.getItem('accounts')||'[]'), null, 2);
-        }
-      }, 100);
-    }
-  });
-
-  // Utility: allow module activation from outside (if needed)
-  window.openModule = function(name){
-    const target = Array.from(document.querySelectorAll('.menu-item')).find(m => m.dataset.module === name);
-    if(target){
-      clearActive();
-      target.classList.add('active');
-      loadModule(name);
-    }
-  };
-</script>
+  </script>
 </body>
 </html>
