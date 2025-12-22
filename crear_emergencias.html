@@ -5,25 +5,25 @@
   <title>VORTEX - Crear Emergencias</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    /* Copia el mismo CSS para mantener diseño */
     :root{
       --primary:#ff6a00; --primary-dark:#e05500;
       --bg:#f8f9fa; --card:#ffffff; --muted:#6c757d; --soft:#e4e7ec; --text:#222;
+      --accent-orange: #ff7a1a;
     }
     *{box-sizing:border-box;margin:0;padding:0;font-family:"Segoe UI", Roboto, sans-serif;}
-    body{display:flex;height:100vh;background:var(--bg);color:var(--text);overflow:hidden;}
+    body{display:flex;min-height:100vh;background:var(--bg);color:var(--text);overflow:hidden;}
     .sidebar{width:300px;background:var(--card);border-right:1px solid var(--soft);display:flex;flex-direction:column;}
-    .sidebar-header{padding:22px;border-bottom:1px solid var(--soft);display:flex;gap:12px;align-items:center;background:linear-gradient(135deg, rgba(255,106,0,0.06), rgba(255,59,59,0.04));}
-    .sidebar-header img{width:48px;height:48px}
-    .brand-title{font-size:20px;font-weight:900;background:linear-gradient(120deg,var(--primary),#ff3b3b);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .sidebar-header{padding:18px;border-bottom:1px solid var(--soft);display:flex;gap:12px;align-items:center;background:linear-gradient(135deg, rgba(255,106,0,0.06), rgba(255,59,59,0.04));}
+    .sidebar-header img{width:44px;height:44px}
+    .brand-title{font-size:18px;font-weight:900;background:linear-gradient(120deg,var(--primary),#ff3b3b);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
     .brand-sub{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
-    .menu{padding:14px;overflow:auto;flex:1}
+    .menu{padding:12px;overflow:auto;flex:1}
     .menu-section-title{font-size:11px;color:var(--muted);text-transform:uppercase;margin:10px 6px 8px;font-weight:700}
-    .menu-item{padding:10px 12px;border-radius:10px;display:flex;gap:10px;align-items:center;margin-bottom:6px;cursor:pointer;font-weight:600;color:var(--text)}
+    .menu-item{padding:10px 12px;border-radius:10px;display:flex;gap:10px;align-items:center;margin-bottom:6px;cursor:pointer;font-weight:600;color:var(--text);text-decoration:none;}
     .menu-item:hover{background:rgba(255,106,0,0.06)}
     .menu-item.active{background:linear-gradient(120deg,var(--primary),#ff3b3b);color:#fff;box-shadow:0 6px 18px rgba(255,106,0,0.18)}
     .main{flex:1;display:flex;flex-direction:column;overflow:hidden}
-    .header{height:72px;background:var(--card);border-bottom:1px solid var(--soft);display:flex;align-items:center;justify-content:space-between;padding:0 26px;box-shadow:0 2px 8px rgba(0,0,0,0.03)}
+    .header{height:72px;background:var(--card);border-bottom:1px solid var(--soft);display:flex;align-items:center;justify-content:space-between;padding:0 18px;box-shadow:0 2px 6px rgba(0,0,0,0.03)}
     .status{display:flex;gap:12px;align-items:center}
     .badge{padding:7px 14px;border-radius:20px;font-weight:800;text-transform:uppercase;font-size:11px;border:1px solid rgba(255,106,0,0.18);background:linear-gradient(120deg,rgba(255,106,0,0.12),rgba(255,59,59,0.08));color:var(--primary-dark)}
     .dept{padding:6px 12px;border-radius:16px;border:1px solid var(--soft);font-weight:700}
@@ -32,10 +32,34 @@
     .user-info .name{font-weight:800}
     .user-info .role{font-size:12px;color:var(--muted);text-transform:uppercase}
     .avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,var(--primary),#ff3b3b);font-weight:900}
-    .body{flex:1;padding:26px;overflow:auto;background:var(--bg)}
-    .card{background:var(--card);border-radius:14px;padding:20px;border:1px solid var(--soft);box-shadow:0 6px 18px rgba(0,0,0,0.03)}
-    .title{font-size:22px;font-weight:900;background:linear-gradient(120deg,var(--primary),#ff3b3b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
-    .desc{color:var(--muted);margin-bottom:14px}
+    .content-row{flex:1;display:flex;gap:14px;padding:18px;align-items:stretch;overflow:hidden}
+    .left{width:560px;display:flex;flex-direction:column;gap:12px;overflow:auto}
+    .card{background:var(--card);border-radius:12px;padding:14px;border:1px solid var(--soft);box-shadow:0 6px 18px rgba(0,0,0,0.03)}
+    .title{font-size:20px;font-weight:900;background:linear-gradient(120deg,var(--primary),#ff3b3b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+    .desc{color:var(--muted);margin-bottom:8px}
+    label{display:block;font-size:12px;font-weight:700;color:var(--primary-dark);margin-bottom:6px;text-transform:uppercase}
+    input,select,textarea,button{font-family:inherit}
+    input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid var(--soft);font-size:14px;background:#fff;color:var(--text)}
+    .btn{padding:10px 14px;border-radius:999px;border:none;background:linear-gradient(120deg,var(--primary),#ff3b3b);color:#fff;font-weight:800;cursor:pointer}
+    .btn.secondary{background:#fff;border:1px solid var(--soft);color:var(--text)}
+    .map-panel{flex:1;display:flex;flex-direction:column}
+    #map{flex:1;border-radius:12px;border:1px solid var(--soft);overflow:hidden}
+    .controls{display:flex;gap:8px;margin-top:8px;align-items:center}
+    .small{font-size:13px;color:var(--muted)}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .full{grid-column:1/-1}
+    .bottom-panel{display:flex;gap:12px;align-items:center;margin-top:10px}
+    .emergencias-list{width:360px;max-height:58vh;overflow:auto}
+    .emerg-row{padding:10px;border-radius:8px;border:1px solid var(--soft);margin-bottom:8px;background:#fff}
+    .toggle{display:inline-flex;align-items:center;gap:8px}
+    .key-panel{display:flex;gap:8px;align-items:center}
+    .chip{padding:6px 10px;border-radius:999px;background:linear-gradient(120deg,#fff,#fff);border:1px solid var(--soft);cursor:pointer}
+    .chip.active{background:linear-gradient(90deg,var(--accent-orange),#ff3b3b);color:#fff;border:0}
+    /* responsive */
+    @media(max-width:1100px){
+      .left{width:440px}
+      .emergencias-list{width:300px}
+    }
   </style>
 </head>
 <body>
@@ -51,7 +75,17 @@
       <div class="menu-section-title">Administración</div>
       <a href="admin_panel.html" class="menu-item" id="link-cuentas">👤 CUENTAS</a>
       <a href="crear_carros.html" class="menu-item" id="link-carros">🚒 CREAR CARROS</a>
-      <a href="crear_emergencias.html" class="menu-item active" id="link-emergencias">🚨 CREAR EMERGENCIAS</a>
+      <a href="crear_cuarteles.html" class="menu-item" id="link-cuarteles">🏢 CREAR CUARTELES</a>
+      <a href="crear_claves.html" class="menu-item" id="link-claves">🔑 CREAR CLAVES</a>
+      <a href="crear_especialidades.html" class="menu-item" id="link-especialidades">⚙️ CREAR ESPECIALIDADES</a>
+      <div style="height:12px;"></div>
+      <div class="menu-section-title">Operaciones</div>
+      <a href="crear_emergencias.html" class="menu-item active" id="link-emergencias">🚨 CREAR EMERGENCIA</a>
+      <a href="emergencias_activas.html" class="menu-item" id="link-emergencias-activas">📡 EMERGENCIAS ACTIVAS</a>
+      <div class="menu-section-title">Reportes</div>
+      <a href="informes.html" class="menu-item" id="link-informes">📊 INFORMES</a>
+      <a href="material_mayor.html" class="menu-item" id="link-material">🧰 MATERIAL MAYOR</a>
+      <a href="bitacoras.html" class="menu-item" id="link-bitacoras">📓 BITÁCORAS</a>
     </div>
   </div>
 
@@ -69,26 +103,454 @@
         <div class="avatar" id="user-avatar">V</div>
       </div>
     </div>
-    <div class="body">
-      <div class="card">
-        <h2 class="title">CREAR EMERGENCIAS</h2>
-        <p class="desc">Módulo en construcción. Próximamente agregaremos funcionalidad completa.</p>
+
+    <div class="content-row">
+      <div class="left">
+        <div class="card">
+          <h3 class="title">Ingresar dirección</h3>
+          <p class="desc">Escribe una dirección y selecciona la sugerencia. También puedes presionar Enter para geocodificar manualmente.</p>
+
+          <label>Dirección</label>
+          <input id="autocomplete" placeholder="Ej: Maipú 626, San Bernardo" />
+
+          <div class="controls">
+            <label class="toggle"><input type="checkbox" id="marker-toggle" checked /> <span class="small">Marcador activo</span></label>
+            <button class="btn secondary" id="center-btn" title="Centrar marcador">Centrar</button>
+            <button class="btn secondary" id="geocode-btn" title="Buscar dirección">Buscar</button>
+          </div>
+
+          <div style="height:10px"></div>
+
+          <div class="form-grid">
+            <div>
+              <label>Calle principal</label>
+              <input id="field-street" placeholder="Calle" />
+            </div>
+            <div>
+              <label>Número</label>
+              <input id="field-number" placeholder="Número" />
+            </div>
+            <div>
+              <label>Comuna</label>
+              <input id="field-comuna" placeholder="Comuna" />
+            </div>
+            <div>
+              <label>Esquina / intersección</label>
+              <input id="field-esquina" placeholder="Esquina" />
+            </div>
+            <div class="full">
+              <label>Coordenadas (lat, lng)</label>
+              <input id="field-coords" readonly />
+            </div>
+          </div>
+
+          <div class="bottom-panel">
+            <div class="key-panel">
+              <label style="margin-right:8px">Clave</label>
+              <select id="select-clave"></select>
+              <label style="margin-left:8px">Subclave</label>
+              <select id="select-subclave"></select>
+            </div>
+            <div style="margin-left:auto;display:flex;gap:8px">
+              <button class="btn" id="save-emerg">Guardar Emergencia</button>
+              <button class="btn secondary" id="reset-form">Limpiar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <h3 class="title">Vista previa / Estado</h3>
+          <p class="desc">Al guardar, la emergencia irá a "Emergencias Activas" abajo y se guardará en localStorage.</p>
+          <div id="preview-area" class="small">Sin datos aún.</div>
+        </div>
+      </div>
+
+      <div class="map-panel">
+        <div class="card" style="height:100%;display:flex;flex-direction:column;">
+          <h3 class="title">Mapa</h3>
+          <div id="map" style="height:480px"></div>
+          <div style="margin-top:8px;display:flex;gap:8px;align-items:center;justify-content:flex-end">
+            <div class="small">Zoom</div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:12px">
+          <h3 class="title">Emergencias activas</h3>
+          <div class="emergencias-list" id="active-list"></div>
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- Google Maps JS: reemplaza YOUR_GOOGLE_MAPS_API_KEY_HERE por tu clave -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY_HERE&libraries=places"></script>
+
   <script>
-    // Mantener sesión y mostrar datos usuario
+    // ---------- Utils y sesión ----------
+    (function(){
+      // Ensure default accounts and data exist
+      if(!localStorage.getItem('accounts')){
+        localStorage.setItem('accounts', JSON.stringify([{
+          user: 'admin', password: '1234', role: 'admin', nombre: 'Administrador', apellido: ''
+        }]));
+      }
+      if(!localStorage.getItem('specialties')) localStorage.setItem('specialties', JSON.stringify(['Rescate','Material Mayor','Atención médica']));
+      if(!localStorage.getItem('stations')) localStorage.setItem('stations', JSON.stringify(['Cuartel Central','San Bernardo','Paine']));
+      if(!localStorage.getItem('cars')) localStorage.setItem('cars', JSON.stringify([]));
+      if(!localStorage.getItem('keys')) {
+        // sample keys & subkeys
+        localStorage.setItem('keys', JSON.stringify({
+          "10-0": ["10-0-1","10-0-2"],
+          "10-1": ["10-1-1"],
+          "20-0": ["20-0-1","20-0-2","20-0-3"]
+        }));
+      }
+      if(!localStorage.getItem('emergencias_activas')) localStorage.setItem('emergencias_activas', JSON.stringify([]));
+    })();
+
     const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
-    const currentDept = localStorage.getItem('currentDepartment');
-    if (!loggedUser) {
+    const currentDept = localStorage.getItem('currentDepartment') || 'Sin departamento';
+    if(!loggedUser){
       window.location.href = 'index.html';
     } else {
       document.getElementById('user-name').textContent = loggedUser.nombre || loggedUser.user;
       document.getElementById('user-role').textContent = (loggedUser.role || '').toUpperCase();
       document.getElementById('user-avatar').textContent = (loggedUser.nombre || loggedUser.user).charAt(0).toUpperCase();
-      document.getElementById('dept-name').textContent = currentDept || '';
+      document.getElementById('dept-name').textContent = currentDept;
     }
+
+    // ---------- Map & Autocomplete ----------
+    let map, geocoder, marker, autocomplete, placesService;
+    const defaultLatLng = { lat: -33.611, lng: -70.678 }; // centro aproximado San Bernardo
+    const markerIcon = getMarkerSvgDataUrl(); // function below
+
+    function initMap(){
+      geocoder = new google.maps.Geocoder();
+      const mapOptions = {
+        center: defaultLatLng,
+        zoom: 16,
+        mapTypeId: 'roadmap',
+        streetViewControl: false,
+        fullscreenControl: false
+      };
+      map = new google.maps.Map(document.getElementById('map'), mapOptions);
+      placesService = new google.maps.places.PlacesService(map);
+
+      marker = new google.maps.Marker({
+        position: mapOptions.center,
+        map: map,
+        draggable: true,
+        icon: markerIcon,
+        title: 'Ubicación de emergencia'
+      });
+
+      // update fields on drag end
+      marker.addListener('dragend', () => {
+        const pos = marker.getPosition();
+        updateCoordsFields(pos.lat(), pos.lng());
+        reverseGeocode(pos);
+      });
+
+      // build autocomplete
+      const input = document.getElementById('autocomplete');
+      autocomplete = new google.maps.places.Autocomplete(input, { types: ['geocode'] });
+      autocomplete.bindTo('bounds', map);
+
+      autocomplete.addListener('place_changed', () => {
+        const place = autocomplete.getPlace();
+        if (!place.geometry) {
+          // no geometry — geocode by text
+          geocodeAddress(input.value);
+          return;
+        }
+        map.panTo(place.geometry.location);
+        map.setZoom(18);
+        marker.setPosition(place.geometry.location);
+        marker.setMap(isMarkerEnabled() ? map : null);
+        updateCoordsFields(place.geometry.location.lat(), place.geometry.location.lng());
+        reverseGeocode(place.geometry.location);
+      });
+
+      // buttons
+      document.getElementById('geocode-btn').addEventListener('click', () => {
+        geocodeAddress(document.getElementById('autocomplete').value);
+      });
+      document.getElementById('center-btn').addEventListener('click', () => {
+        const pos = marker.getPosition();
+        if(pos) map.panTo(pos);
+      });
+      document.getElementById('marker-toggle').addEventListener('change', (e) => {
+        marker.setVisible(e.target.checked);
+      });
+
+      // Enter key on input triggers geocode
+      input.addEventListener('keydown', (ev) => {
+        if(ev.key === 'Enter'){
+          ev.preventDefault();
+          geocodeAddress(input.value);
+        }
+      });
+    }
+
+    function geocodeAddress(address){
+      if(!address || address.trim()==='') return alert('Ingrese una dirección.');
+      geocoder.geocode({ address: address }, (results, status) => {
+        if(status === 'OK' && results[0]){
+          const loc = results[0].geometry.location;
+          map.panTo(loc);
+          map.setZoom(18);
+          marker.setPosition(loc);
+          marker.setMap(isMarkerEnabled() ? map : null);
+          updateCoordsFields(loc.lat(), loc.lng());
+          fillAddressFieldsFromGeocoderResults(results);
+        } else {
+          alert('No se encontró la dirección: ' + status);
+        }
+      });
+    }
+
+    function reverseGeocode(latlng){
+      geocoder.geocode({ location: latlng }, (results, status) => {
+        if(status === 'OK' && results && results.length){
+          fillAddressFieldsFromGeocoderResults(results);
+        } else {
+          console.warn('Reverse geocode failed: ', status);
+        }
+      });
+    }
+
+    function fillAddressFieldsFromGeocoderResults(results){
+      // Prefer a result that is 'street_address' or 'intersection'
+      let chosen = null;
+      for(const r of results){
+        if(r.types.includes('street_address') || r.types.includes('intersection') || r.types.includes('premise') ){
+          chosen = r; break;
+        }
+      }
+      if(!chosen) chosen = results[0];
+
+      // parse components
+      const comp = chosen.address_components || [];
+      const getComp = (types) => {
+        for(const c of comp){
+          for(const t of types){
+            if(c.types.includes(t)) return c.long_name;
+          }
+        }
+        return '';
+      };
+      const route = getComp(['route']);
+      const number = getComp(['street_number']);
+      const comuna = getComp(['sublocality','sublocality_level_1','locality','administrative_area_level_2']);
+      // attempt to find intersection name if any result has 'intersection' type
+      let esquina = '';
+      for(const r of results){
+        if(r.types && r.types.includes('intersection')){
+          // try to extract route names from components
+          const c = r.address_components || [];
+          const routes = c.filter(x => x.types.includes('route')).map(x => x.long_name);
+          if(routes.length>=2) esquina = routes.slice(0,2).join(' / ');
+          else esquina = r.formatted_address || '';
+          break;
+        }
+      }
+      if(!esquina){
+        // fallback: try second result route
+        if(results[1]){
+          const c2 = results[1].address_components || [];
+          const r2 = c2.filter(x => x.types.includes('route')).map(x => x.long_name);
+          if(r2.length) esquina = r2[0];
+        }
+      }
+
+      // fill fields
+      if(route) document.getElementById('field-street').value = route;
+      if(number) document.getElementById('field-number').value = number;
+      if(comuna) document.getElementById('field-comuna').value = comuna;
+      if(esquina) document.getElementById('field-esquina').value = esquina;
+      // coords field ensure set
+      const pos = marker.getPosition();
+      if(pos) updateCoordsFields(pos.lat(), pos.lng());
+      // update preview
+      updatePreview();
+    }
+
+    function updateCoordsFields(lat, lng){
+      document.getElementById('field-coords').value = lat.toFixed(6) + ', ' + lng.toFixed(6);
+      updatePreview();
+    }
+
+    function isMarkerEnabled(){ return document.getElementById('marker-toggle').checked; }
+
+    // ---------- Marker icon (SVG data URL) ----------
+    function getMarkerSvgDataUrl(){
+      const svg = encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+          <defs>
+            <linearGradient id="g" x1="0" x2="1">
+              <stop offset="0" stop-color="#ff9a4d"/>
+              <stop offset="1" stop-color="#ff5a2a"/>
+            </linearGradient>
+          </defs>
+          <circle cx="32" cy="24" r="14" fill="url(#g)" stroke="#fff" stroke-width="2"></circle>
+          <text x="32" y="30" font-size="16" text-anchor="middle" fill="#fff" font-family="Arial" font-weight="900">V</text>
+          <path d="M32 38 C32 38 22 48 22 56 L42 56 C42 48 32 38 32 38 Z" fill="#ff5a2a" opacity="0.9"/>
+        </svg>
+      `);
+      return {
+        url: 'data:image/svg+xml;utf8,' + svg,
+        scaledSize: new google.maps.Size(48, 48),
+        anchor: new google.maps.Point(24,48)
+      };
+    }
+
+    // ---------- Keys (claves) UI ----------
+    function initKeysUI(){
+      const keys = JSON.parse(localStorage.getItem('keys') || '{}');
+      const selectClave = document.getElementById('select-clave');
+      const selectSub = document.getElementById('select-subclave');
+      selectClave.innerHTML = '';
+      for(const k of Object.keys(keys)){
+        const opt = document.createElement('option'); opt.value = k; opt.textContent = k; selectClave.appendChild(opt);
+      }
+      // when clave changes, populate subclave
+      function populateSub(){
+        const kv = selectClave.value;
+        selectSub.innerHTML = '';
+        const subs = (keys[kv]||[]);
+        if(subs.length === 0) {
+          const o = document.createElement('option'); o.value = ''; o.textContent = 'Sin subclave'; selectSub.appendChild(o);
+        } else {
+          subs.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; selectSub.appendChild(o); });
+        }
+      }
+      selectClave.addEventListener('change', populateSub);
+      populateSub();
+    }
+
+    // ---------- Save emergency ----------
+    function saveEmergency(){
+      const clave = document.getElementById('select-clave').value;
+      const subclave = document.getElementById('select-subclave').value;
+      const street = document.getElementById('field-street').value.trim();
+      const number = document.getElementById('field-number').value.trim();
+      const comuna = document.getElementById('field-comuna').value.trim();
+      const esquina = document.getElementById('field-esquina').value.trim();
+      const coords = document.getElementById('field-coords').value.trim();
+
+      if(!coords) return alert('Define la ubicación con el marcador o búsqueda.');
+      if(!clave) return alert('Selecciona una clave.');
+      // parse coords
+      const [latStr,lngStr] = coords.split(',').map(s=>s.trim());
+      const lat = parseFloat(latStr), lng = parseFloat(lngStr);
+      const emerg = {
+        id: 'E-'+Date.now(),
+        clave, subclave,
+        street, number, comuna, esquina,
+        lat, lng,
+        department: currentDept,
+        createdBy: loggedUser.user || loggedUser.nombre,
+        createdAt: new Date().toISOString(),
+        status: 'active'
+      };
+      const arr = JSON.parse(localStorage.getItem('emergencias_activas')||'[]');
+      arr.unshift(emerg);
+      localStorage.setItem('emergencias_activas', JSON.stringify(arr));
+      alert('Emergencia creada y marcada como ACTIVA.');
+      renderActiveEmergencias();
+      // optionally clear form or keep
+      updatePreview();
+    }
+
+    // ---------- Render active emergencies list ----------
+    function renderActiveEmergencias(){
+      const container = document.getElementById('active-list');
+      const arr = JSON.parse(localStorage.getItem('emergencias_activas')||'[]');
+      if(arr.length===0){ container.innerHTML = '<div class="small">No hay emergencias activas.</div>'; return; }
+      container.innerHTML = '';
+      arr.forEach(e => {
+        const d = document.createElement('div'); d.className='emerg-row';
+        d.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-weight:800">${e.clave} ${e.subclave ? ' / '+e.subclave : ''}</div>
+            <div class="small">${new Date(e.createdAt).toLocaleString()}</div>
+          </div>
+          <div style="margin-top:8px">${e.street || ''} ${e.number || ''}${e.esquina?(' — Esquina: '+e.esquina):''}</div>
+          <div style="margin-top:6px" class="small">Comuna: ${e.comuna || ''} — Despachado por: ${e.createdBy || ''}</div>
+          <div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end">
+            <button class="btn secondary" data-id="${e.id}" onclick="openOnMap('${e.id}')">Abrir</button>
+            <button class="btn secondary" data-id="${e.id}" onclick="closeEmerg('${e.id}')">Cerrar</button>
+          </div>`;
+        container.appendChild(d);
+      });
+    }
+
+    // Open emergency on map (center & marker)
+    window.openOnMap = function(id){
+      const arr = JSON.parse(localStorage.getItem('emergencias_activas')||'[]');
+      const e = arr.find(x => x.id === id);
+      if(!e) return alert('No encontrado');
+      const latlng = new google.maps.LatLng(parseFloat(e.lat), parseFloat(e.lng));
+      map.panTo(latlng);
+      map.setZoom(18);
+      marker.setPosition(latlng);
+      marker.setMap(isMarkerEnabled() ? map : null);
+      updateCoordsFields(e.lat, e.lng);
+      document.getElementById('field-street').value = e.street || '';
+      document.getElementById('field-number').value = e.number || '';
+      document.getElementById('field-comuna').value = e.comuna || '';
+      document.getElementById('field-esquina').value = e.esquina || '';
+      updatePreview();
+    };
+
+    // Close (remove) emergency from active
+    window.closeEmerg = function(id){
+      if(!confirm('Marcar esta emergencia como cerrada?')) return;
+      let arr = JSON.parse(localStorage.getItem('emergencias_activas')||'[]');
+      arr = arr.filter(x => x.id !== id);
+      localStorage.setItem('emergencias_activas', JSON.stringify(arr));
+      renderActiveEmergencias();
+    };
+
+    // ---------- Preview update ----------
+    function updatePreview(){
+      const p = document.getElementById('preview-area');
+      const s = document.getElementById('field-street').value;
+      const n = document.getElementById('field-number').value;
+      const e = document.getElementById('field-esquina').value;
+      const c = document.getElementById('field-comuna').value;
+      const co = document.getElementById('field-coords').value;
+      p.innerHTML = `<div style="font-weight:800">${s || '—'} ${n || ''}</div>
+        <div class="small">${e ? 'Esquina: '+e+' — ' : ''}${c || ''}</div>
+        <div class="small">Coords: ${co || '—'}</div>`;
+    }
+
+    // ---------- Reset form ----------
+    document.getElementById('reset-form').addEventListener('click', () => {
+      document.getElementById('autocomplete').value = '';
+      document.getElementById('field-street').value = '';
+      document.getElementById('field-number').value = '';
+      document.getElementById('field-comuna').value = '';
+      document.getElementById('field-esquina').value = '';
+      document.getElementById('field-coords').value = '';
+      updatePreview();
+    });
+
+    document.getElementById('save-emerg').addEventListener('click', saveEmergency);
+
+    // ---------- On load ----------
+    function onLoadInit(){
+      initMap();
+      initKeysUI();
+      renderActiveEmergencias();
+      updatePreview();
+      // mark active menu
+      const currentPage = window.location.pathname.split('/').pop();
+      document.querySelectorAll('.menu-item').forEach(item => {
+        if(item.getAttribute('href') === currentPage) item.classList.add('active'); else item.classList.remove('active');
+      });
+    }
+
+    window.addEventListener('load', onLoadInit);
+
   </script>
 </body>
 </html>
