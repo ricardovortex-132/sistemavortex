@@ -1,113 +1,48 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <title>VORTEX - Panel de Administración (Cuentas)</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root{
-      --primary:#ff6a00; --primary-dark:#e05500;
-      --bg:#f8f9fa; --card:#ffffff; --muted:#6c757d; --soft:#e4e7ec; --text:#222;
+<script>
+  function getAccounts(){ return JSON.parse(localStorage.getItem('accounts') || '[]'); }
+  function saveAccounts(a){ localStorage.setItem('accounts', JSON.stringify(a)); }
+
+  // Asegurar cuentas por defecto (puedes omitir si ya lo tienes)
+  function ensureDefaultAccounts(){
+    let accounts = getAccounts();
+    if(!accounts.some(a=>a.user==='admin')){
+      accounts.push({user:'admin', pass:'1234', nombre:'Super Admin', role:'superadmin', assignedDept:null});
+      saveAccounts(accounts);
     }
-    *{box-sizing:border-box;margin:0;padding:0;font-family:"Segoe UI", Roboto, sans-serif;}
-    body{display:flex;height:100vh;background:var(--bg);color:var(--text);overflow:hidden;}
-    .sidebar{width:300px;background:var(--card);border-right:1px solid var(--soft);display:flex;flex-direction:column;}
-    .sidebar-header{padding:22px;border-bottom:1px solid var(--soft);display:flex;gap:12px;align-items:center;background:linear-gradient(135deg, rgba(255,106,0,0.06), rgba(255,59,59,0.04));}
-    .sidebar-header img{width:48px;height:48px}
-    .brand-title{font-size:20px;font-weight:900;background:linear-gradient(120deg,var(--primary),#ff3b3b);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-    .brand-sub{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
-    .menu{padding:14px;overflow:auto;flex:1}
-    .menu-section-title{font-size:11px;color:var(--muted);text-transform:uppercase;margin:10px 6px 8px;font-weight:700}
-    .menu-item{padding:10px 12px;border-radius:10px;display:flex;gap:10px;align-items:center;margin-bottom:6px;cursor:pointer;font-weight:600;color:var(--text);text-decoration:none;}
-    .menu-item:hover{background:rgba(255,106,0,0.06)}
-    .menu-item.active{background:linear-gradient(120deg,var(--primary),#ff3b3b);color:#fff;box-shadow:0 6px 18px rgba(255,106,0,0.18)}
-    .main{flex:1;display:flex;flex-direction:column;overflow:hidden}
-    .header{height:72px;background:var(--card);border-bottom:1px solid var(--soft);display:flex;align-items:center;justify-content:space-between;padding:0 26px;box-shadow:0 2px 8px rgba(0,0,0,0.03)}
-    .status{display:flex;gap:12px;align-items:center}
-    .badge{padding:7px 14px;border-radius:20px;font-weight:800;text-transform:uppercase;font-size:11px;border:1px solid rgba(255,106,0,0.18);background:linear-gradient(120deg,rgba(255,106,0,0.12),rgba(255,59,59,0.08));color:var(--primary-dark)}
-    .dept{padding:6px 12px;border-radius:16px;border:1px solid var(--soft);font-weight:700}
-    .user{display:flex;gap:12px;align-items:center}
-    .user-info{text-align:right}
-    .user-info .name{font-weight:800}
-    .user-info .role{font-size:12px;color:var(--muted);text-transform:uppercase}
-    .avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,var(--primary),#ff3b3b);font-weight:900}
-    .body{flex:1;padding:26px;overflow:auto;background:var(--bg)}
-    .card{background:var(--card);border-radius:14px;padding:20px;border:1px solid var(--soft);box-shadow:0 6px 18px rgba(0,0,0,0.03)}
-    .title{font-size:22px;font-weight:900;background:linear-gradient(120deg,var(--primary),#ff3b3b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
-    .desc{color:var(--muted);margin-bottom:14px}
-  </style>
-</head>
-<body>
-  <div class="sidebar">
-    <div class="sidebar-header">
-      <img src="icon-vortex.png" alt="Vortex" />
-      <div>
-        <div class="brand-title">VORTEX</div>
-        <div class="brand-sub">Panel de Control</div>
-      </div>
-    </div>
-    <div class="menu">
-      <div class="menu-section-title">Administración</div>
-      <a href="admin_panel.html" class="menu-item" id="link-cuentas">👤 CUENTAS</a>
-      <a href="crear_carros.html" class="menu-item" id="link-carros">🚒 CREAR CARROS</a>
-      <a href="crear_cuarteles.html" class="menu-item" id="link-cuarteles">🏢 CREAR CUARTELES</a>
-      <a href="crear_claves.html" class="menu-item" id="link-claves">🔑 CREAR CLAVES</a>
-      <a href="crear_especialidades.html" class="menu-item" id="link-especialidades">⚙️ CREAR ESPECIALIDADES</a>
-      <div style="height:12px;"></div>
-      <div class="menu-section-title">Operaciones</div>
-      <a href="crear_emergencias.html" class="menu-item" id="link-emergencias">🚨 CREAR EMERGENCIA</a>
-      <a href="emergencias_activas.html" class="menu-item" id="link-emergencias-activas">📡 EMERGENCIAS ACTIVAS</a>
-      <div class="menu-section-title">Reportes</div>
-      <a href="informes.html" class="menu-item" id="link-informes">📊 INFORMES</a>
-      <a href="material_mayor.html" class="menu-item" id="link-material">🧰 MATERIAL MAYOR</a>
-      <a href="bitacoras.html" class="menu-item" id="link-bitacoras">📓 BITÁCORAS</a>
-    </div>
-  </div>
+  }
+  ensureDefaultAccounts();
 
-  <div class="main">
-    <div class="header">
-      <div class="status">
-        <div class="badge">● SISTEMA ACTIVO</div>
-        <div class="dept" id="dept-name">Cargando...</div>
-      </div>
-      <div class="user">
-        <div class="user-info">
-          <span class="name" id="user-name">Cargando...</span>
-          <span class="role" id="user-role">—</span>
-        </div>
-        <div class="avatar" id="user-avatar">V</div>
-      </div>
-    </div>
-    <div class="body" id="main-body">
-      <div class="card">
-        <h2 class="title">Módulo CUENTAS</h2>
-        <p class="desc">Aquí irá la gestión de cuentas (en construcción).</p>
-      </div>
-    </div>
-  </div>
+  const btnLogin = document.getElementById('btn-login');
+  const errorMsg = document.getElementById('error-msg');
 
-  <script>
-    // Sesión y mostrar usuario/depto
-    const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
-    const currentDept = localStorage.getItem('currentDepartment');
-    if (!loggedUser) {
-      window.location.href = 'index.html';
-    } else {
-      document.getElementById('user-name').textContent = loggedUser.nombre || loggedUser.user;
-      document.getElementById('user-role').textContent = (loggedUser.role || '').toUpperCase();
-      document.getElementById('user-avatar').textContent = (loggedUser.nombre || loggedUser.user).charAt(0).toUpperCase();
-      document.getElementById('dept-name').textContent = currentDept || '';
+  btnLogin.addEventListener('click', () => {
+    errorMsg.textContent = '';
+    const user = document.getElementById('username').value.trim();
+    const pass = document.getElementById('password').value.trim();
+    const dept = document.getElementById('dept-select').value;
+
+    if(!dept){ errorMsg.textContent = 'Selecciona el cuerpo de bomberos'; return; }
+    if(!user || !pass){ errorMsg.textContent = 'Usuario y contraseña requeridos'; return; }
+
+    const accounts = getAccounts();
+    const account = accounts.find(a => a.user === user && a.pass === pass);
+
+    if(!account){ errorMsg.textContent = 'Credenciales incorrectas'; return; }
+
+    if(account.role !== 'superadmin' && account.assignedDept && account.assignedDept !== dept){
+      errorMsg.textContent = 'Este usuario no pertenece al cuerpo seleccionado';
+      return;
     }
 
-    // Marcar menú activo
-    const currentPage = window.location.pathname.split('/').pop();
-    document.querySelectorAll('.menu-item').forEach(item => {
-      if (item.getAttribute('href') === currentPage) {
-        item.classList.add('active');
-      } else {
-        item.classList.remove('active');
-      }
-    });
-  </script>
-</body>
-</html>
+    const session = {
+      user: account.user,
+      nombre: account.nombre || account.user,
+      role: account.role || 'operator',
+      dept: dept,
+      loggedAt: new Date().toISOString()
+    };
+    localStorage.setItem('vortex_session', JSON.stringify(session));
+
+    window.location.href = 'admin_panel.html';
+  });
+</script>
